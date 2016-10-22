@@ -7,15 +7,26 @@
     <a href="/" class="lang-logo">
       <img src="@routes.Assets.at("images/lang-logo.png")">
     </a>
-    <h1>Getting Started with Scala/Play on Heroku</h1>
+    <h1>Restaurants REST service with Scala/Play on Heroku</h1>
     <p>This is an application deployed to Heroku. It's a REST service developed by Udea-Soft team at Enterprise Application Development course.</p>
     <a type="button" class="btn btn-lg btn-primary" href="https://github.com/Udea-Soft/restaurants.git"><span class="glyphicon glyphicon-download"></span> Source on GitHub</a>
   </div>
 </div>
 <div class="container">
   @if(message != null){
-  <div class="alert alert-success text-center" role="alert">
+  <div class="alert alert-success text-left" role="alert">
     @message
+    Endpoints: <BR>
+    #Get all restaurants <BR>
+    GET /restaurants<BR>
+    #Get restaurant by id<BR>
+    GET /restaurants/:id <BR>
+    #Save a restaurant <BR>
+    POST /restaurants <BR>
+    #Get all cities <BR>
+    GET /cities <BR>
+    #Create a reservation <BR>
+    POST /reservations
   </div>
   }
   <hr>
