@@ -1,4 +1,4 @@
-name := """play-scala-udea-soft"""
+name := """play-getting-started"""
 
 version := "1.0-SNAPSHOT"
 
@@ -16,4 +16,3 @@ libraryDependencies ++= Seq(
 )
 
 libraryDependencies <+= scalaVersion("org.scala-lang" % "scala-compiler" % _ )
-routesGenerator := InjectedRoutesGenerator 

@@ -10,7 +10,10 @@ import play.api.db._
 object Application extends Controller {
 
   def index = Action {
-    Ok(views.html.index("Endpoints: \nhttps://restaurants-udea-soft.herokuapp.com/restaurants"))
+    Ok(views.html.index("Endpoints: "+
+      "\n#Get all restaurants \nGET /restaurants \n#Get restaurant by id"+
+      "\nGET /restaurants/:id \n#Save a restaurant \nPOST /restaurants "+
+      "\n#Get all cities \nGET /cities \n#Create a reservation \nPOST /reservations"))
   }
 
   def db = Action {
