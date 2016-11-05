@@ -16,7 +16,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 class CityController @Inject extends Controller {
   implicit val restaurantWrites: Writes[City] = (
     (JsPath \ "city_id").write[Int] and
-    (JsPath \ "name").write[String])(unlift(City.unapply))
+    (JsPath \ "name_city").write[String])(unlift(City.unapply))
   def getAll = Action.async {
     Cities.list map { city =>
       val json = Json.toJson(city)

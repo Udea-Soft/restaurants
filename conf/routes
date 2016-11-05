@@ -3,19 +3,19 @@
 # ~~~~
 #Get all restaurants
 
-GET /restaurants @controllers.RestaurantsController.getAll
+GET /restaurants                    @controllers.RestaurantsController.getAll
 
 #Get restaurant by id
-GET /restaurants/:id @controllers.RestaurantsController.getById(id: Long)
+GET /restaurants/:id                @controllers.RestaurantsController.getById(id: Long)
 
 #Save a restaurant
-POST /restaurants @controllers.RestaurantsController.save
+POST /restaurants                   @controllers.RestaurantsController.save
 
 #Get all cities
-GET /cities @controllers.CityController.getAll
+GET /cities                         @controllers.CityController.getAll
 
 #Create a reservation
-POST /reservations @controllers.ReservationController.createReservation
+POST /reservations                  @controllers.ReservationController.createReservation
 
 # Home page
 GET     /                           @controllers.Application.index
