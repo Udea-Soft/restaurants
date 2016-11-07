@@ -1,4 +1,4 @@
-package model
+package models
 import slick.driver.PostgresDriver.api._
 case class TableRestaurant(table_restaurant_id: Long,restaurant:Long,capacity:Long,available:Boolean)
 class TableRestaurantDef(tag: Tag) extends Table[TableRestaurant](tag, "table_restaurant") {

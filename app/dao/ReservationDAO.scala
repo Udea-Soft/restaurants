@@ -4,11 +4,11 @@ import slick.driver.JdbcProfile
 import play.api.Play
 import slick.driver.PostgresDriver.api._
 import scala.concurrent.Future
-import model.ReservationTableDef
+import models.ReservationTableDef
 import scala.concurrent.ExecutionContext.Implicits.global
-import model.CompleteReservation
+import models.CompleteReservation
 
-object Reservations {
+object ReservationDAO {
   val dbConfig=DatabaseConfigProvider.get[JdbcProfile](Play.current)
   val reservations=TableQuery[ReservationTableDef]  
   def save(reservation:CompleteReservation):Future[String]={

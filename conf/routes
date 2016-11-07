@@ -2,24 +2,28 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 #Get all restaurants
-
-GET /restaurants                    @controllers.RestaurantsController.getAll
+GET /restaurants                    @controllers.RestaurantController.getAll
 
 #Get restaurant by id
-GET /restaurants/:id                @controllers.RestaurantsController.getById(id: Long)
+GET /restaurants/:id                @controllers.RestaurantController.getById(id: Long)
+
+#Search restaurant by name
+GET /restaurants/search/:name        @controllers.RestaurantController.searchByName(name: String)
 
 #Save a restaurant
-POST /restaurants                   @controllers.RestaurantsController.save
+#POST /restaurants                   @controllers.RestaurantController.save
 
 #Get all cities
 GET /cities                         @controllers.CityController.getAll
+
+#Get cities by id_city
+GET /cities/:id                         @controllers.CityController.getById(id: Long)
 
 #Create a reservation
 POST /reservations                  @controllers.ReservationController.createReservation
 
 # Home page
 GET     /                           @controllers.Application.index
-GET     /db                         @controllers.Application.db
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

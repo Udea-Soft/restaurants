@@ -1,4 +1,5 @@
-﻿DROP TABLE IF EXISTS city CASCADE;
+﻿-- noinspection SqlNoDataSourceInspectionForFile
+DROP TABLE IF EXISTS city CASCADE;
 CREATE TABLE city (
 id_city SERIAL PRIMARY KEY,
 name_city TEXT NOT NULL
@@ -43,7 +44,7 @@ DROP TABLE IF EXISTS photo CASCADE;
 CREATE TABLE photo (
 id_photo SERIAL PRIMARY KEY,
 url_photo TEXT NOT NULL,
-restaurant INTEGER NOT NULL REFERENCES restaurant
+restaurant INTEGER NOT NULL REFERENCES franchise
 );
 DROP TABLE IF EXISTS food_type CASCADE;
 CREATE TABLE food_type (
@@ -117,3 +118,25 @@ type INTEGER NOT NULL,
 delivery INTEGER REFERENCES delivery,
 reservation INTEGER REFERENCES reservation
 );
+
+-- role user
+
+-- 0 : cliente
+-- 1 : administrador
+
+-- state reservation
+
+-- 0 : reservada
+-- 1 : cancelada
+-- 2 : incumplida
+-- 3 : completada
+
+-- type order
+
+-- 0 : delivery
+-- 1 : reservation
+
+-- type payment
+
+-- 0 : no pagada
+-- 1 : pagada

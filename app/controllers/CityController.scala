@@ -3,22 +3,22 @@ package controllers
 import javax.inject.Singleton
 import javax.inject.Inject
 import play.api.mvc.Controller
-import play.api.libs.json.Writes
-import model.City
-import play.api.libs.json.JsPath
-import play.api.libs.functional.syntax._
 import play.api.mvc.Action
-import dao.Cities
+import dao.CityDAO
 import play.api.libs.json.Json
 import scala.concurrent.ExecutionContext.Implicits.global
 
 @Singleton
-class CityController @Inject extends Controller {
-  implicit val restaurantWrites: Writes[City] = (
-    (JsPath \ "city_id").write[Int] and
-    (JsPath \ "name_city").write[String])(unlift(City.unapply))
+class CityController @Inject() (cityDAO: CityDAO) extends Controller {
+
   def getAll = Action.async {
-    Cities.list map { city =>
+    cityDAO.all map { city =>
+      val json = Json.toJson(city)
+      Ok(json)
+    }
+  }
+  def getById(id: Long) = Action.async {
+    cityDAO.get(id) map { city =>
       val json = Json.toJson(city)
       Ok(json)
     }

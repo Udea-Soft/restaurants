@@ -5,8 +5,8 @@ import play.api.Play
 import slick.driver.PostgresDriver.api._
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
-import model.TableRestaurantDef
-import model.TableRestaurant
+import models.TableRestaurantDef
+import models.TableRestaurant
 
 object TableRestaurants {
   val dbConfig=DatabaseConfigProvider.get[JdbcProfile](Play.current)
