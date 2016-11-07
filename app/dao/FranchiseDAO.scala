@@ -30,7 +30,7 @@ class FranchiseDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvi
       case ex: Exception => "Error no se pudo guardar la franquicia"
     }
   }
-  
+
   class Franchises(tag: Tag) extends Table[Franchise](tag, "franchise") {
 
 
