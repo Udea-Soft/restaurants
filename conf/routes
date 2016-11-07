@@ -8,16 +8,19 @@ GET /restaurants                    @controllers.RestaurantController.getAll
 GET /restaurants/:id                @controllers.RestaurantController.getById(id: Long)
 
 #Search restaurant by name
-GET /restaurants/search/:name        @controllers.RestaurantController.searchByName(name: String)
+GET /restaurants/search/:name       @controllers.RestaurantController.searchByName(name: String)
 
 #Save a restaurant
-#POST /restaurants                   @controllers.RestaurantController.save
+POST /restaurants                   @controllers.RestaurantController.insert
+
+#Get all restaurants
+GET /franchises                    @controllers.FranchiseController.getAll
 
 #Get all cities
 GET /cities                         @controllers.CityController.getAll
 
 #Get cities by id_city
-GET /cities/:id                         @controllers.CityController.getById(id: Long)
+GET /cities/:id                     @controllers.CityController.getById(id: Long)
 
 #Create a reservation
 POST /reservations                  @controllers.ReservationController.createReservation
