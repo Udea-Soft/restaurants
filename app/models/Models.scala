@@ -1,9 +1,7 @@
 package models
 
-import java.sql.Time
+import java.sql.{Time, Timestamp}
 import java.text.SimpleDateFormat
-
-import org.joda.time.LocalTime
 import play.api.libs.json._
 
 
@@ -42,3 +40,23 @@ object Franchise {
   implicit val franchiseReads = Json.reads[Franchise]
 }
 
+case class Reservation(id_reservation: Long, user_restaurant: Long, table_restaurant: Long,
+                       date_init: Timestamp, date_end: Timestamp, amount_people: Int,
+                       state: Int)
+
+object Reservation {
+  implicit object TimestampFormat extends Format[Timestamp] {
+    val format = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss")
+
+    def reads(json: JsValue) = {
+      val str = json.as[String]
+      JsSuccess(new Timestamp(format.parse(str).getTime))
+    }
+
+    def writes(ts: Timestamp) = JsString(format.format(ts))
+  }
+  implicit val reservationWrites = Json.writes[Reservation]
+  implicit val reservationReads = Json.reads[Reservation]
+}
+
+// cambiomenudespuesdepago reservasperiodicas repotereservaspagadas photo-get

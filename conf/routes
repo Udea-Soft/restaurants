@@ -14,7 +14,7 @@ GET /restaurants/search/:name       @controllers.RestaurantController.searchByNa
 POST /restaurants                   @controllers.RestaurantController.insert
 
 #Get all restaurants
-GET /franchises                    @controllers.FranchiseController.getAll
+GET /franchises                     @controllers.FranchiseController.getAll
 
 #Get all cities
 GET /cities                         @controllers.CityController.getAll
@@ -22,8 +22,11 @@ GET /cities                         @controllers.CityController.getAll
 #Get cities by id_city
 GET /cities/:id                     @controllers.CityController.getById(id: Long)
 
+#Get reservations by user
+GET /reservations/user/:id_user     @controllers.ReservationController.getByUser(id_user: Long)
+
 #Create a reservation
-POST /reservations                  @controllers.ReservationController.createReservation
+POST /reservations                  @controllers.ReservationController.insert
 
 # Home page
 GET     /                           @controllers.Application.index

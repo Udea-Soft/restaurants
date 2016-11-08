@@ -24,7 +24,7 @@ class RestaurantDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProv
 
   def save(restaurant: Restaurant):Future[String]={
     db.run(restaurants += restaurant).map(res => "Restaurant saved").recover{
-      case ex: Exception => "Error no se pudo guardar el restaurante"
+      case ex: Exception => "Error no se pudo guardar el restaurante" + ex.getCause.getMessage
     }
   }
 
