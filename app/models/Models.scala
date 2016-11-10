@@ -40,7 +40,7 @@ object Franchise {
   implicit val franchiseReads = Json.reads[Franchise]
 }
 
-case class Reservation(id_reservation: Long, user_restaurant: Long, table_restaurant: Long,
+case class Reservation(id_reservation: Option[Long], user_restaurant: Long, table_restaurant: Long,
                        date_init: Timestamp, date_end: Timestamp, amount_people: Int,
                        state: Int)
 
@@ -59,4 +59,13 @@ object Reservation {
   implicit val reservationReads = Json.reads[Reservation]
 }
 
-// cambiomenudespuesdepago reservasperiodicas repotereservaspagadas photo-get
+case class Photo(id_photo: Option[Long], url_photo: String, restaurant: Long)
+
+object Photo {
+  implicit val photoWrites = Json.writes[Photo]
+  implicit val photoReads = Json.reads[Photo]
+}
+
+case class TableRestaurant(id_table_restaurant: Option[Long], restaurant: Long, capacity: Long, available: Boolean)
+
+// cambiomenudespuesdepago reservasperiodicas repotereservaspagadas

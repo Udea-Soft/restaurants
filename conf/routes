@@ -26,7 +26,10 @@ GET /cities/:id                     @controllers.CityController.getById(id: Long
 GET /reservations/user/:id_user     @controllers.ReservationController.getByUser(id_user: Long)
 
 #Create a reservation
-POST /reservations                  @controllers.ReservationController.insert
+#POST /reservations                  @controllers.ReservationController.insert
+
+#Get photos by franchise
+GET /photos/:id_franchise           @controllers.PhotoController.getByFranchise(id_franchise: Long)
 
 # Home page
 GET     /                           @controllers.Application.index

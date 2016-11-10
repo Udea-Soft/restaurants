@@ -1,14 +1,12 @@
 package dao
 
 import javax.inject.Inject
-
 import play.api.db.slick.HasDatabaseConfigProvider
 import models.Franchise
 import slick.driver.PostgresDriver.api._
 import play.api.db.slick.DatabaseConfigProvider
 import slick.driver.JdbcProfile
 import java.sql.Time
-
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 
@@ -28,7 +26,7 @@ class FranchiseDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvi
     }
   }
 
-  class Franchises(tag: Tag) extends Table[Franchise](tag, "franchise") {
+  private class Franchises(tag: Tag) extends Table[Franchise](tag, "franchise") {
 
     def id_franchise = column[Long]("id_franchise", O.PrimaryKey, O.AutoInc)
 

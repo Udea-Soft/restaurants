@@ -28,7 +28,7 @@ class RestaurantDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProv
     }
   }
 
-  class Restaurants(tag:Tag) extends Table[Restaurant](tag,"restaurant"){
+  private class Restaurants(tag:Tag) extends Table[Restaurant](tag,"restaurant"){
     def id_restaurant=column[Long]("id_restaurant",O.PrimaryKey,O.AutoInc)
     def name_restaurant=column[String]("name_restaurant")
     def description=column[String]("description")
