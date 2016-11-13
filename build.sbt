@@ -10,6 +10,7 @@ libraryDependencies ++= Seq(
   jdbc,
   cache,
   ws,
+  filters,
   "org.postgresql" % "postgresql" % "9.4.1212",
   "com.github.tminglei" %% "slick-pg" % "0.14.3",
   "com.typesafe.play" % "play-slick_2.11" % "2.0.2",
