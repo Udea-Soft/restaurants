@@ -2,10 +2,11 @@ package controllers
 
 import javax.inject.Singleton
 import javax.inject.Inject
-import play.api.mvc.Controller
-import play.api.mvc.Action
+
+import play.api.mvc.{Action, Controller, Result}
 import dao.CityDAO
 import play.api.libs.json.Json
+
 import scala.concurrent.ExecutionContext.Implicits.global
 
 @Singleton
