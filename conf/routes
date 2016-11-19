@@ -25,6 +25,8 @@ GET /cities/:id                     @controllers.CityController.getById(id: Long
 #Get reservations by user
 GET /reservations/user/:id_user     @controllers.ReservationController.getByUser(id_user: Long)
 
+#Get overlaped reservations in a range
+GET /reservations/restaurant/:franchise/range/:start/:end  @controllers.ReservationController.getByRange(franchise:Long,start:String,end:String)
 #Create a reservation
 #POST /reservations                  @controllers.ReservationController.insert
 

@@ -7,7 +7,7 @@ import slick.driver.PostgresDriver.api._
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 import models.TableRestaurant
-
+ 
 class TableRestaurantDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider) extends HasDatabaseConfigProvider[JdbcProfile] {
 
   private val tables = TableQuery[TableRestaurants]
@@ -29,6 +29,6 @@ class TableRestaurantDAO @Inject()(protected val dbConfigProvider: DatabaseConfi
     def restaurant = column[Long]("restaurant")
     def capacity=column[Long]("capacity")
     def available=column[Boolean]("available")
-    override def * = (id_table_restaurant.?,restaurant,capacity,available) <> (TableRestaurant.tupled, TableRestaurant.unapply)
+    override def * = (id_table_restaurant,restaurant,capacity,available) <> ((TableRestaurant.apply _).tupled, TableRestaurant.unapply)
   }
 }

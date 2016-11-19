@@ -43,6 +43,7 @@ object Franchise {
 case class Reservation(id_reservation: Option[Long], user_restaurant: Long, table_restaurant: Long,
                        date_init: Timestamp, date_end: Timestamp, amount_people: Int,
                        state: Int)
+case class CompleteReservation(reservation:Reservation,table_restaurant:TableRestaurant)
 
 object Reservation {
   implicit object TimestampFormat extends Format[Timestamp] {
@@ -66,6 +67,14 @@ object Photo {
   implicit val photoReads = Json.reads[Photo]
 }
 
-case class TableRestaurant(id_table_restaurant: Option[Long], restaurant: Long, capacity: Long, available: Boolean)
+case class TableRestaurant(id_table_restaurant: Long, franchise: Long, capacity: Long, available: Boolean)
+object TableRestaurant {
+  implicit val photoWrites = Json.writes[TableRestaurant]
+  implicit val photoReads = Json.reads[TableRestaurant]
+}
+object CompleteReservation {
+  implicit val photoWrites = Json.writes[CompleteReservation]
+  implicit val photoReads = Json.reads[CompleteReservation]
+}
 
 // cambiomenudespuesdepago reservasperiodicas repotereservaspagadas
