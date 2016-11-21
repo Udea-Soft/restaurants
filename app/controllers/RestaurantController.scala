@@ -9,6 +9,7 @@ import models.Restaurant
 import play.api.libs.json.Json
 import scala.concurrent.ExecutionContext.Implicits.global
 
+
 @Singleton
 class RestaurantController @Inject()(restaurantDAO: RestaurantDAO) extends Controller {
 
@@ -17,7 +18,7 @@ class RestaurantController @Inject()(restaurantDAO: RestaurantDAO) extends Contr
       val json = Json.toJson(restaurant)
       Ok(json)
     }
-  }
+  }  
 
   def getById(id: Long) = Action.async {
     restaurantDAO.get(id) map { restaurant =>

@@ -12,16 +12,31 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import models.TableRestaurant
 import models.CompleteReservation
 import java.util.Calendar
+import models.Payment
+import models.PaymentReservation
 
 
 class ReservationDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider) extends HasDatabaseConfigProvider[JdbcProfile] {
 
   private val reservations = TableQuery[Reservations]
   val tables_restaurant=TableQuery[TablesRestaurant];
+  val payments=TableQuery[Payments]
+  val paymentJoin:Query[(Reservations,Payments),(Reservation,Payment), Seq] = reservations join payments on (_.id_reservation ===_.reservation)
+  val paymentAction:DBIO[Seq[(Reservation,Payment)]]=paymentJoin.result
   val tupledJoin: Query[(Reservations,TablesRestaurant),(Reservation,TableRestaurant), Seq] = reservations join tables_restaurant on (_.table_restaurant ===_.id_table_restaurant)
   val joinAction:DBIO[Seq[(Reservation,TableRestaurant)]]=tupledJoin.result
   def all(): Future[Seq[CompleteReservation]] = get
-
+  
+  def getByUserWithPayment(user:Long):Future[Seq[PaymentReservation]]={
+    getWithPayment map{payment=>
+      payment filter (_.reservation.user_restaurant==user)
+    }
+  }
+  private def getWithPayment:Future[Seq[PaymentReservation]]={
+    db.run(paymentAction) map{payment=>
+      payment map(p=>(PaymentReservation.apply _) tupled p):Seq[PaymentReservation]      
+    }
+  }
   def getByUser(user:Long):Future[Seq[CompleteReservation]] = {
      get map{reservation=>
        reservation.filter(_.reservation.user_restaurant==user) 
@@ -86,6 +101,12 @@ class ReservationDAO @Inject()(protected val dbConfigProvider: DatabaseConfigPro
     override def * = (id_reservation.?, user_restaurant, table_restaurant, date_init, date_end,
       amount_people, state) <> ((Reservation.apply _).tupled, Reservation.unapply)
   }
+  class Payments(tag:Tag) extends Table[Payment](tag,"payment"){
+    def id_payment=column[Long]("id_payment")
+    def reservation=column[Long]("reservation")
+    def state=column[Long]("state")
+    override def * = (id_payment.?,reservation,state)<>((Payment.apply _).tupled,Payment.unapply)
+  }
 }
 
 class TablesRestaurant(tag:Tag) extends Table[TableRestaurant](tag,"table_restaurant"){
@@ -93,5 +114,5 @@ class TablesRestaurant(tag:Tag) extends Table[TableRestaurant](tag,"table_restau
   def franchise=column[Long]("franchise");
   def capacity=column[Long]("capacity");
   def available=column[Boolean]("available");
-  override def * = (id_table_restaurant,franchise,capacity,available)<>((TableRestaurant.apply _).tupled,TableRestaurant.unapply)
+  override def * = (id_table_restaurant.?,franchise,capacity,available)<>((TableRestaurant.apply _).tupled,TableRestaurant.unapply)
 }

@@ -24,6 +24,12 @@ class ReservationController @Inject()(reservationDAO: ReservationDAO, tableResta
       Ok(json)
     }
   }
+   def getByUserWithPayment(id_user: Long) = Action.async {
+      reservationDAO.getByUserWithPayment(id_user) map { reservation =>      
+      val json = Json.toJson(reservation)
+      Ok(json)
+    }
+  }
   def getAll = Action.async {
       reservationDAO.all() map { reservation =>
       val json = Json.toJson(reservation)
@@ -35,6 +41,12 @@ class ReservationController @Inject()(reservationDAO: ReservationDAO, tableResta
       reservationDAO.getByRange(franchise,new Timestamp(format.parse(start).getTime),new Timestamp(format.parse(end).getTime)) map { reservation =>
       val json = Json.toJson(reservation)
       Ok(json)
+    }
+  }
+  def insert=Action.async(parse.json){implicit request=>
+    val received=request.body.validate[Reservation].get
+    reservationDAO.save(received) map{r=>
+      Ok(r)
     }
   }
 /*

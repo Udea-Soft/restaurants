@@ -1,9 +1,8 @@
 package models
 
-import java.sql.{Time, Timestamp}
+import java.sql.{ Time, Timestamp }
 import java.text.SimpleDateFormat
 import play.api.libs.json._
-
 
 case class City(id_city: Option[Long], name_city: String)
 
@@ -43,7 +42,7 @@ object Franchise {
 case class Reservation(id_reservation: Option[Long], user_restaurant: Long, table_restaurant: Long,
                        date_init: Timestamp, date_end: Timestamp, amount_people: Int,
                        state: Int)
-case class CompleteReservation(reservation:Reservation,table_restaurant:TableRestaurant)
+case class CompleteReservation(reservation: Reservation, table_restaurant: TableRestaurant)
 
 object Reservation {
   implicit object TimestampFormat extends Format[Timestamp] {
@@ -67,7 +66,7 @@ object Photo {
   implicit val photoReads = Json.reads[Photo]
 }
 
-case class TableRestaurant(id_table_restaurant: Long, franchise: Long, capacity: Long, available: Boolean)
+case class TableRestaurant(id_table_restaurant: Option[Long], franchise: Long, capacity: Long, available: Boolean)
 object TableRestaurant {
   implicit val photoWrites = Json.writes[TableRestaurant]
   implicit val photoReads = Json.reads[TableRestaurant]
@@ -78,3 +77,43 @@ object CompleteReservation {
 }
 
 // cambiomenudespuesdepago reservasperiodicas repotereservaspagadas
+//Menu
+case class Order(id_delivery_dish: Option[Long], dish: Long, amount: Long, type_d: Long, delivery: Option[Long], reservation: Option[Long], price: Double)
+
+object Order {
+  implicit val orderWrites = Json.writes[Order]
+  implicit val orderReads = Json.reads[Order]
+}
+
+case class Dish(id_dish: Long, name_dish: String, description: String, price: Double, restaurant: Long, type_d: Long)
+
+object Dish {
+  implicit val dishWrites = Json.writes[Dish]
+  implicit val dishReads = Json.reads[Dish]
+}
+
+case class DishType(id_dish_type: Long, type_d: String)
+
+object DishType {
+  implicit val dishTypeWrites = Json.writes[DishType]
+  implicit val dishTypeReads = Json.reads[DishType]
+}
+case class CompleteDish(dish: Dish, type_d: DishType)
+
+object CompleteDish {
+  implicit val dishWrites = Json.writes[CompleteDish]
+  implicit val dishReads = Json.reads[CompleteDish]
+}
+
+case class Payment(id_payment:Option[Long],reservation:Long,state:Long)
+
+object Payment{
+  implicit val paymentWrites=Json.writes[Payment]
+  implicit val paymentReads=Json.reads[Payment]
+}
+case class PaymentReservation(reservation:Reservation,payment:Payment)
+object PaymentReservation{
+  implicit val paymentWrites=Json.writes[PaymentReservation]
+  implicit val paymentReads=Json.reads[PaymentReservation]
+}
+

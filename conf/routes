@@ -24,11 +24,25 @@ GET /cities/:id                     @controllers.CityController.getById(id: Long
 
 #Get reservations by user
 GET /reservations/user/:id_user     @controllers.ReservationController.getByUser(id_user: Long)
+#get reservations by user with payment status
+GET /reservations/payment/user/:id_user  @controllers.ReservationController.getByUserWithPayment(id_user: Long)
 
 #Get overlaped reservations in a range
 GET /reservations/restaurant/:franchise/range/:start/:end  @controllers.ReservationController.getByRange(franchise:Long,start:String,end:String)
+
+#Get order of a reservation
+GET /orders/reservation/:reservation  @controllers.OrderController.getByReservation(reservation: Long)
+#Get dishes by restaurant
+GET /dishes/restaurant/:restaurant  @controllers.DishController.getDishesByRestaurant(restaurant: Long)
+#Get dish by id
+GET /dishes/:id                     @controllers.DishController.getById(id: Long)
+
+#Get tables by franchise
+GET /tables/franchise/:franchise    @controllers.TableRestaurantController.getByRestaurant(franchise: Long)
+#Add table
+POST /tables						@controllers.TableRestaurantController.insert
 #Create a reservation
-#POST /reservations                  @controllers.ReservationController.insert
+POST /reservations                  @controllers.ReservationController.insert
 
 #Get photos by franchise
 GET /photos/:id_franchise           @controllers.PhotoController.getByFranchise(id_franchise: Long)

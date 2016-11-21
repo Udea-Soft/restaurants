@@ -12,8 +12,8 @@ class TableRestaurantDAO @Inject()(protected val dbConfigProvider: DatabaseConfi
 
   private val tables = TableQuery[TableRestaurants]
 
-  def list(restaurant:Long):Future[Option[TableRestaurant]]={
-    db.run(tables.filter(_.restaurant===restaurant).result.headOption)
+  def list(restaurant:Long):Future[Seq[TableRestaurant]]={
+    db.run(tables.filter(_.franchise===restaurant).result)
   }  
   def save(table: TableRestaurant):Future[String]={
     db.run(tables+=table).map(res => "Table saved").recover{
@@ -26,9 +26,9 @@ class TableRestaurantDAO @Inject()(protected val dbConfigProvider: DatabaseConfi
 
   private class TableRestaurants(tag: Tag) extends Table[TableRestaurant](tag, "table_restaurant") {
     def id_table_restaurant = column[Long]("id_table_restaurant",O.PrimaryKey,O.AutoInc)
-    def restaurant = column[Long]("restaurant")
+    def franchise = column[Long]("franchise")
     def capacity=column[Long]("capacity")
     def available=column[Boolean]("available")
-    override def * = (id_table_restaurant,restaurant,capacity,available) <> ((TableRestaurant.apply _).tupled, TableRestaurant.unapply)
+    override def * = (id_table_restaurant.?,franchise,capacity,available) <> ((TableRestaurant.apply _).tupled, TableRestaurant.unapply)
   }
 }
