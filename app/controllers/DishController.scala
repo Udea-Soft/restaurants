@@ -13,13 +13,13 @@ class DishController @Inject()(dishDAO: DishDAO) extends Controller{
   def getDishesByRestaurant(restaurant:Long)=Action.async{
     dishDAO.getByRestaurant(restaurant) map{dish=>
       val json=Json.toJson(dish)
-      Ok(json)
+      Ok(json).withHeaders(ACCESS_CONTROL_ALLOW_ORIGIN -> "*")
     }
   }
   def getById(id:Long)=Action.async{
     dishDAO.getByDish(id) map{dish=>
       val json=Json.toJson(dish)
-      Ok(json)
+      Ok(json).withHeaders(ACCESS_CONTROL_ALLOW_ORIGIN -> "*")
     }
   }
   

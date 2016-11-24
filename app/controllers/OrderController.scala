@@ -16,7 +16,7 @@ class OrderController @Inject()(orderDAO: OrderDAO) extends Controller{
   def getByReservation(reservation: Long) = Action.async {
     orderDAO.getByReservation(reservation) map { order =>
       val json = Json.toJson(order)
-      Ok(json)
+      Ok(json).withHeaders(ACCESS_CONTROL_ALLOW_ORIGIN -> "*")
     }
   }
   def delete=Action.async(parse.json){implicit request=>
@@ -29,14 +29,14 @@ class OrderController @Inject()(orderDAO: OrderDAO) extends Controller{
       else{
         message="Plato eliminado de la reserva"
       }
-      Ok(message)
+      Ok(message).withHeaders(ACCESS_CONTROL_ALLOW_ORIGIN -> "*")
     }
   }
   def save=Action.async(parse.json){implicit request=>
     var received:Order=request.body.validate[Order].get    
     var newDish=new Order(received.id_delivery_dish,received.dish,received.amount,Some(1),received.delivery,received.reservation,received.price)
     orderDAO.save(newDish) map{response=>
-      Ok(response)
+      Ok(response).withHeaders(ACCESS_CONTROL_ALLOW_ORIGIN -> "*")
     }
   }
   def update=Action.async(parse.json){implicit request=>
@@ -49,7 +49,7 @@ class OrderController @Inject()(orderDAO: OrderDAO) extends Controller{
       else{
         message="Plato actualizado en la reserva"
       }
-      Ok(message)
+      Ok(message).withHeaders(ACCESS_CONTROL_ALLOW_ORIGIN -> "*")
     }
   }
   def updateBalance=Action.async(parse.json){implicit request=>
@@ -61,7 +61,7 @@ class OrderController @Inject()(orderDAO: OrderDAO) extends Controller{
       }else{
         message="Se agregó el saldo al usuario"
       }
-      Ok(message)
+      Ok(message).withHeaders(ACCESS_CONTROL_ALLOW_ORIGIN -> "*")
      }
   }
 }

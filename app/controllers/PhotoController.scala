@@ -15,7 +15,7 @@ class PhotoController @Inject()(photoDAO: PhotoDAO)extends Controller{
   def getByFranchise(id_franchise: Long) = Action.async {
     photoDAO.getByRestaurant(id_franchise) map { photo =>
       val json = Json.toJson(photo)
-      Ok(json)
+      Ok(json).withHeaders(ACCESS_CONTROL_ALLOW_ORIGIN -> "*")
     }
   }
 }

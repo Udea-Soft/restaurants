@@ -16,21 +16,21 @@ class RestaurantController @Inject()(restaurantDAO: RestaurantDAO) extends Contr
   def getAll = Action.async {
     restaurantDAO.all map { restaurant =>
       val json = Json.toJson(restaurant)
-      Ok(json)
+      Ok(json).withHeaders(ACCESS_CONTROL_ALLOW_ORIGIN -> "*")
     }
   }  
 
   def getById(id: Long) = Action.async {
     restaurantDAO.get(id) map { restaurant =>
       val json = Json.toJson(restaurant)
-      Ok(json)
+      Ok(json).withHeaders(ACCESS_CONTROL_ALLOW_ORIGIN -> "*")
     }
   }
 
   def searchByName(name: String) = Action.async {
     restaurantDAO.getByName(name) map { restaurant =>
       val json = Json.toJson(restaurant)
-      Ok(json)
+      Ok(json).withHeaders(ACCESS_CONTROL_ALLOW_ORIGIN -> "*")
     }
   }
 
@@ -39,7 +39,7 @@ class RestaurantController @Inject()(restaurantDAO: RestaurantDAO) extends Contr
     val received = request.body.validate[Restaurant].get
     val receivedRestaurant = Restaurant(None, received.name_restaurant, received.description, received.email, received.admin)
     restaurantDAO.save(receivedRestaurant) map { res =>
-      Ok(res)
+      Ok(res).withHeaders(ACCESS_CONTROL_ALLOW_ORIGIN -> "*")
     }
   }
 }

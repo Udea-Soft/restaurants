@@ -14,13 +14,13 @@ class TableRestaurantController @Inject()(tableRestaurantDAO: TableRestaurantDAO
   def getByRestaurant(restaurant:Long)=Action.async{
     tableRestaurantDAO.list(restaurant) map{tables=>
       val json=Json.toJson(tables)
-      Ok(json)
+      Ok(json).withHeaders(ACCESS_CONTROL_ALLOW_ORIGIN -> "*")
     }
   }
   def insert=Action.async(parse.json){implicit request=>
     val table=request.body.validate[TableRestaurant].get
     tableRestaurantDAO.save(table) map{r=>
-      Ok(r)
+      Ok(r).withHeaders(ACCESS_CONTROL_ALLOW_ORIGIN -> "*")
     }
   }
 }

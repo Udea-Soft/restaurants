@@ -15,7 +15,8 @@ POST /restaurants                   @controllers.RestaurantController.insert
 
 #Get all restaurants
 GET /franchises                     @controllers.FranchiseController.getAll
-
+#Get franchise by id 
+GET /franchises/:id					@controllers.FranchiseController.getById(id: Long)
 #Get all cities
 GET /cities                         @controllers.CityController.getAll
 

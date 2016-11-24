@@ -21,32 +21,32 @@ class ReservationController @Inject()(reservationDAO: ReservationDAO, tableResta
   def getByUser(id_user: Long) = Action.async {
       reservationDAO.getByUser(id_user) map { reservation =>      
       val json = Json.toJson(reservation)
-      Ok(json)
+      Ok(json).withHeaders(ACCESS_CONTROL_ALLOW_ORIGIN -> "*")
     }
   }
    def getByUserWithPayment(id_user: Long) = Action.async {
       reservationDAO.getByUserWithPayment(id_user) map { reservation =>      
       val json = Json.toJson(reservation)
-      Ok(json)
+      Ok(json).withHeaders(ACCESS_CONTROL_ALLOW_ORIGIN -> "*")
     }
   }
   def getAll = Action.async {
       reservationDAO.all() map { reservation =>
       val json = Json.toJson(reservation)
-      Ok(json)
+      Ok(json).withHeaders(ACCESS_CONTROL_ALLOW_ORIGIN -> "*")
     }
   }
   def getByRange(franchise:Long,start:String,end:String) = Action.async {
       val format = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss")
       reservationDAO.getByRange(franchise,new Timestamp(format.parse(start).getTime),new Timestamp(format.parse(end).getTime)) map { reservation =>
       val json = Json.toJson(reservation)
-      Ok(json)
+      Ok(json).withHeaders(ACCESS_CONTROL_ALLOW_ORIGIN -> "*")
     }
   }
   def insert=Action.async(parse.json){implicit request=>
     val received=request.body.validate[Reservation].get
     reservationDAO.save(received) map{r=>
-      Ok(r)
+      Ok(r).withHeaders(ACCESS_CONTROL_ALLOW_ORIGIN -> "*")
     }
   }
 /*
