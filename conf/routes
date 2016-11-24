@@ -52,4 +52,15 @@ GET     /                           @controllers.Application.index
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
+#Add balance to user
+PUT /users/addBalance    @controllers.OrderController.updateBalance
+#Delete dish from order
+DELETE /orders/delete    @controllers.OrderController.delete
+
+#Add dish to order
+POST /orders/add     @controllers.OrderController.save
+
+#Modify dish of an order
+PUT /orders/modify   @controllers.OrderController.update
+
 

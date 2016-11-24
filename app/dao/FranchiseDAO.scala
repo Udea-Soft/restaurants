@@ -25,8 +25,8 @@ class FranchiseDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvi
       case ex: Exception => "Error no se pudo guardar la franquicia\n" + ex.getCause.getMessage
     }
   }
-
-  private class Franchises(tag: Tag) extends Table[Franchise](tag, "franchise") {
+}
+class Franchises(tag: Tag) extends Table[Franchise](tag, "franchise") {
 
     def id_franchise = column[Long]("id_franchise", O.PrimaryKey, O.AutoInc)
 
@@ -55,4 +55,3 @@ class FranchiseDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvi
     override def * = (id_franchise.?, name_franchise, restaurant, address, city, phone, latitude, longitude,
       open_time_week, close_time_week, open_time_weekend, close_time_weekend) <> ((Franchise.apply _).tupled, Franchise.unapply)
   }
-}

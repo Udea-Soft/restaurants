@@ -42,7 +42,7 @@ object Franchise {
 case class Reservation(id_reservation: Option[Long], user_restaurant: Long, table_restaurant: Long,
                        date_init: Timestamp, date_end: Timestamp, amount_people: Int,
                        state: Int)
-case class CompleteReservation(reservation: Reservation, table_restaurant: TableRestaurant)
+case class CompleteReservation(reservation:ReservationTable, franchise: Franchise)
 
 object Reservation {
   implicit object TimestampFormat extends Format[Timestamp] {
@@ -66,19 +66,19 @@ object Photo {
   implicit val photoReads = Json.reads[Photo]
 }
 
+
 case class TableRestaurant(id_table_restaurant: Option[Long], franchise: Long, capacity: Long, available: Boolean)
 object TableRestaurant {
   implicit val photoWrites = Json.writes[TableRestaurant]
   implicit val photoReads = Json.reads[TableRestaurant]
 }
-object CompleteReservation {
-  implicit val photoWrites = Json.writes[CompleteReservation]
-  implicit val photoReads = Json.reads[CompleteReservation]
-}
+case class ReservationTable(reservation:Reservation,table:TableRestaurant)
+
+
 
 // cambiomenudespuesdepago reservasperiodicas repotereservaspagadas
 //Menu
-case class Order(id_delivery_dish: Option[Long], dish: Long, amount: Long, type_d: Long, delivery: Option[Long], reservation: Option[Long], price: Double)
+case class Order(id_delivery_dish: Option[Long], dish: Long, amount: Long, type_d: Option[Long], delivery: Option[Long], reservation: Option[Long], price: Double)
 
 object Order {
   implicit val orderWrites = Json.writes[Order]
@@ -116,4 +116,24 @@ object PaymentReservation{
   implicit val paymentWrites=Json.writes[PaymentReservation]
   implicit val paymentReads=Json.reads[PaymentReservation]
 }
+object ReservationTable {
+  implicit val photoWrites = Json.writes[ReservationTable]
+  implicit val photoReads = Json.reads[ReservationTable]
+}
+object CompleteReservation {
+  implicit val photoWrites = Json.writes[CompleteReservation]
+  implicit val photoReads = Json.reads[CompleteReservation]
+}
+case class OrderID(id_delivery_dish:Long)
 
+object OrderID{
+  implicit val orderWrites=Json.writes[OrderID]
+  implicit val orderReads=Json.reads[OrderID]
+}
+
+case class User(id_user:Long,balance:Long)
+
+object User{
+  implicit val userWrites=Json.writes[User]
+  implicit val userReads=Json.reads[User]
+}

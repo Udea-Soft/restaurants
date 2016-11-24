@@ -14,17 +14,21 @@ import models.CompleteReservation
 import java.util.Calendar
 import models.Payment
 import models.PaymentReservation
+import models.Franchise
+import models.ReservationTable
+
 
 
 class ReservationDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider) extends HasDatabaseConfigProvider[JdbcProfile] {
 
   private val reservations = TableQuery[Reservations]
   val tables_restaurant=TableQuery[TablesRestaurant];
+  val franchises=TableQuery[Franchises]
   val payments=TableQuery[Payments]
   val paymentJoin:Query[(Reservations,Payments),(Reservation,Payment), Seq] = reservations join payments on (_.id_reservation ===_.reservation)
   val paymentAction:DBIO[Seq[(Reservation,Payment)]]=paymentJoin.result
-  val tupledJoin: Query[(Reservations,TablesRestaurant),(Reservation,TableRestaurant), Seq] = reservations join tables_restaurant on (_.table_restaurant ===_.id_table_restaurant)
-  val joinAction:DBIO[Seq[(Reservation,TableRestaurant)]]=tupledJoin.result
+  val tupledJoin: Query[((Reservations,TablesRestaurant),Franchises),((Reservation,TableRestaurant),Franchise), Seq] = reservations join tables_restaurant on (_.table_restaurant ===_.id_table_restaurant) join franchises on (_._2.franchise===_.id_franchise)
+  val joinAction:DBIO[Seq[((Reservation,TableRestaurant),Franchise)]]=tupledJoin.result
   def all(): Future[Seq[CompleteReservation]] = get
   
   def getByUserWithPayment(user:Long):Future[Seq[PaymentReservation]]={
@@ -39,12 +43,12 @@ class ReservationDAO @Inject()(protected val dbConfigProvider: DatabaseConfigPro
   }
   def getByUser(user:Long):Future[Seq[CompleteReservation]] = {
      get map{reservation=>
-       reservation.filter(_.reservation.user_restaurant==user) 
+       reservation.filter(_.reservation.reservation.user_restaurant==user) 
      }
   }
   def getByRange(franchise:Long,start:Timestamp,end:Timestamp):Future[Seq[CompleteReservation]]={
     get map{reservation=>
-      reservation.filter {r => r.table_restaurant.franchise==franchise&&inRange(start,r.reservation.date_init,r.reservation.date_end,end)}  
+      reservation.filter {r => r.reservation.table.franchise==franchise&&inRange(start,r.reservation.reservation.date_init,r.reservation.reservation.date_end,end)}  
     }
   }
   private def inRange(start:Timestamp,date:Timestamp,date2:Timestamp,end:Timestamp):Boolean={
@@ -81,7 +85,10 @@ class ReservationDAO @Inject()(protected val dbConfigProvider: DatabaseConfigPro
   }
   private def get:Future[Seq[CompleteReservation]]={
     db.run(joinAction) map{ reservation=> 
-      reservation  map(r=>(CompleteReservation.apply _) tupled r):Seq[CompleteReservation]
+      reservation  map{r=>
+        val reservation=(ReservationTable.apply _) tupled r._1  
+        (CompleteReservation.apply _) tupled (reservation,r._2)
+      }:Seq[CompleteReservation]
     }
   }
   def save(reservation:Reservation):Future[String]={
