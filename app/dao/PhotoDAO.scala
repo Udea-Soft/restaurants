@@ -7,7 +7,7 @@ import play.api.db.slick.HasDatabaseConfigProvider
 import slick.driver.PostgresDriver.api._
 import play.api.db.slick.DatabaseConfigProvider
 import slick.driver.JdbcProfile
-
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class PhotoDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider) extends HasDatabaseConfigProvider[JdbcProfile] {
