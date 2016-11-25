@@ -3,7 +3,7 @@ package controllers
 import javax.inject.Singleton
 import javax.inject.Inject
 
-import play.api.mvc.{Action, Controller, Result}
+import play.api.mvc.{Action, Controller}
 import dao.CityDAO
 import play.api.libs.json.Json
 

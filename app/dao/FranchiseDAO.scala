@@ -29,30 +29,30 @@ class FranchiseDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvi
 
 class Franchises(tag: Tag) extends Table[Franchise](tag, "franchise") {
 
-    def id_franchise = column[Long]("id_franchise", O.PrimaryKey, O.AutoInc)
+  def id_franchise = column[Long]("id_franchise", O.PrimaryKey, O.AutoInc)
 
-    def name_franchise = column[String]("name_franchise")
+  def name_franchise = column[String]("name_franchise")
 
-    def restaurant = column[Long]("restaurant")
+  def restaurant = column[Long]("restaurant")
 
-    def address = column[String]("address")
+  def address = column[String]("address")
 
-    def city = column[Long]("city")
+  def city = column[Long]("city")
 
-    def phone = column[String]("phone")
+  def phone = column[String]("phone")
 
-    def latitude = column[Double]("latitude")
+  def latitude = column[Double]("latitude")
 
-    def longitude = column[Double]("longitude")
+  def longitude = column[Double]("longitude")
 
-    def open_time_week = column[Time]("open_time_week")
+  def open_time_week = column[Time]("open_time_week")
 
-    def close_time_week = column[Time]("close_time_week")
+  def close_time_week = column[Time]("close_time_week")
 
-    def open_time_weekend = column[Time]("open_time_weekend")
+  def open_time_weekend = column[Time]("open_time_weekend")
 
-    def close_time_weekend = column[Time]("close_time_weekend")
+  def close_time_weekend = column[Time]("close_time_weekend")
 
-    override def * = (id_franchise.?, name_franchise, restaurant, address, city, phone, latitude, longitude,
-      open_time_week, close_time_week, open_time_weekend, close_time_weekend) <> ((Franchise.apply _).tupled, Franchise.unapply)
-  }
+  override def * = (id_franchise.?, name_franchise, restaurant, address, city, phone, latitude, longitude,
+    open_time_week, close_time_week, open_time_weekend, close_time_weekend) <> ((Franchise.apply _).tupled, Franchise.unapply)
+}
