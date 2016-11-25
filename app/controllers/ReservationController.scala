@@ -49,6 +49,13 @@ class ReservationController @Inject()(reservationDAO: ReservationDAO, tableResta
       Ok(r).withHeaders(ACCESS_CONTROL_ALLOW_ORIGIN -> "*")
     }
   }
+  def getPaid(start:String,end:String)=Action.async{
+    val format = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss")
+    reservationDAO.getWithUser(new Timestamp(format.parse(start).getTime),new Timestamp(format.parse(end).getTime)) map{r=>
+      val json=Json.toJson(r)
+      Ok(json).withHeaders(ACCESS_CONTROL_ALLOW_ORIGIN -> "*")
+    }    
+  }
 /*
   def insert = Action.async(parse.json) { implicit request =>
     val received = request.body.validate[Reservation].get

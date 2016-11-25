@@ -65,3 +65,5 @@ POST /orders/add     @controllers.OrderController.save
 PUT /orders/modify   @controllers.OrderController.update
 
 
+#Get payed reservations by range
+GET /reservations/paid/inRange/:start/:end   @controllers.ReservationController.getPaid(start:String, end:String)

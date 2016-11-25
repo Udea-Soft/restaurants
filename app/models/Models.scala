@@ -137,3 +137,16 @@ object User{
   implicit val userWrites=Json.writes[User]
   implicit val userReads=Json.reads[User]
 }
+
+case class UserRestaurant(id_user:Long,username:String,name:String)
+
+object UserRestaurant{
+  implicit val userWrites=Json.writes[UserRestaurant]
+  implicit val userReads=Json.reads[UserRestaurant]
+}
+case class ReportReservation(reservation:Reservation,table:TableRestaurant,user:UserRestaurant,franchise:Franchise,payment:Payment)
+
+object ReportReservation{
+  implicit val reportWrites=Json.writes[ReportReservation]
+  implicit val reportReads=Json.reads[ReportReservation]
+}

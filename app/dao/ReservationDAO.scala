@@ -16,6 +16,8 @@ import models.Payment
 import models.PaymentReservation
 import models.Franchise
 import models.ReservationTable
+import models.UserRestaurant
+import models.ReportReservation
 
 
 
@@ -25,10 +27,13 @@ class ReservationDAO @Inject()(protected val dbConfigProvider: DatabaseConfigPro
   val tables_restaurant=TableQuery[TablesRestaurant];
   val franchises=TableQuery[Franchises]
   val payments=TableQuery[Payments]
+  val users=TableQuery[UsersRestaurant]
   val paymentJoin:Query[(Reservations,Payments),(Reservation,Payment), Seq] = reservations join payments on (_.id_reservation ===_.reservation)
   val paymentAction:DBIO[Seq[(Reservation,Payment)]]=paymentJoin.result
   val tupledJoin: Query[((Reservations,TablesRestaurant),Franchises),((Reservation,TableRestaurant),Franchise), Seq] = reservations join tables_restaurant on (_.table_restaurant ===_.id_table_restaurant) join franchises on (_._2.franchise===_.id_franchise)
   val joinAction:DBIO[Seq[((Reservation,TableRestaurant),Franchise)]]=tupledJoin.result
+  val emberJoin: Query[((((Reservations,TablesRestaurant),Franchises),UsersRestaurant),Payments),((((Reservation,TableRestaurant),Franchise),UserRestaurant),Payment), Seq] = reservations join tables_restaurant on (_.table_restaurant ===_.id_table_restaurant) join franchises on (_._2.franchise===_.id_franchise) join users on (_._1._1.user_restaurant===_.id_user) join payments on (_._1._1._1.id_reservation===_.reservation)
+  val emberAction:DBIO[Seq[((((Reservation,TableRestaurant),Franchise),UserRestaurant),Payment)]]=emberJoin.result
   def all(): Future[Seq[CompleteReservation]] = get
   
   def getByUserWithPayment(user:Long):Future[Seq[PaymentReservation]]={
@@ -36,9 +41,26 @@ class ReservationDAO @Inject()(protected val dbConfigProvider: DatabaseConfigPro
       payment filter (_.reservation.user_restaurant==user)
     }
   }
+  def getWithUser(start:Timestamp,end:Timestamp):Future[Seq[ReportReservation]]={
+    getEmber map{reservations=>
+      reservations filter (r=> r.payment.state==1&&after(r.reservation.date_init,start)&&before(r.reservation.date_end,end))      
+    }
+  }
   private def getWithPayment:Future[Seq[PaymentReservation]]={
     db.run(paymentAction) map{payment=>
       payment map(p=>(PaymentReservation.apply _) tupled p):Seq[PaymentReservation]      
+    }
+  }
+  private def getEmber:Future[Seq[ReportReservation]]={
+    db.run(emberAction) map{reserv=>
+       reserv map{r=>
+         var reservatio=r._1._1._1._1
+         var table=r._1._1._1._2
+         var franchise=r._1._1._2
+         var user=r._1._2
+         var payment=r._2
+         (ReportReservation.apply _) tupled (reservatio,table,user,franchise,payment)
+       }:Seq[ReportReservation]
     }
   }
   def getByUser(user:Long):Future[Seq[CompleteReservation]] = {
