@@ -26,6 +26,7 @@ class FranchiseDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvi
     }
   }
 }
+
 class Franchises(tag: Tag) extends Table[Franchise](tag, "franchise") {
 
     def id_franchise = column[Long]("id_franchise", O.PrimaryKey, O.AutoInc)

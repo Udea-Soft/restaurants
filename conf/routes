@@ -2,68 +2,72 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 #Get all restaurants
-GET /restaurants                    @controllers.RestaurantController.getAll
+GET           /restaurants                                                 @controllers.RestaurantController.getAll
 
 #Get restaurant by id
-GET /restaurants/:id                @controllers.RestaurantController.getById(id: Long)
+GET           /restaurants/:id                                             @controllers.RestaurantController.getById(id: Long)
 
 #Search restaurant by name
-GET /restaurants/search/:name       @controllers.RestaurantController.searchByName(name: String)
+GET           /restaurants/search/:name                                    @controllers.RestaurantController.searchByName(name: String)
 
 #Save a restaurant
-POST /restaurants                   @controllers.RestaurantController.insert
+POST          /restaurants                                                 @controllers.RestaurantController.insert
 
 #Get all restaurants
-GET /franchises                     @controllers.FranchiseController.getAll
+GET           /franchises                                                  @controllers.FranchiseController.getAll
 #Get franchise by id 
-GET /franchises/:id					@controllers.FranchiseController.getById(id: Long)
+GET           /franchises/:id                                              @controllers.FranchiseController.getById(id: Long)
+#Save a franchise
+POST          /franchises                                                  @controllers.FranchiseController.insert
 #Get all cities
-GET /cities                         @controllers.CityController.getAll
+GET           /cities                                                      @controllers.CityController.getAll
 
 #Get cities by id_city
-GET /cities/:id                     @controllers.CityController.getById(id: Long)
+GET           /cities/:id                                                  @controllers.CityController.getById(id: Long)
 
 #Get reservations by user
-GET /reservations/user/:id_user     @controllers.ReservationController.getByUser(id_user: Long)
+GET           /reservations/user/:id_user                                  @controllers.ReservationController.getByUser(id_user: Long)
 #get reservations by user with payment status
-GET /reservations/payment/user/:id_user  @controllers.ReservationController.getByUserWithPayment(id_user: Long)
+GET           /reservations/payment/user/:id_user                          @controllers.ReservationController.getByUserWithPayment(id_user: Long)
 
 #Get overlaped reservations in a range
-GET /reservations/restaurant/:franchise/range/:start/:end  @controllers.ReservationController.getByRange(franchise:Long,start:String,end:String)
+GET           /reservations/restaurant/:franchise/range/:start/:end        @controllers.ReservationController.getByRange(franchise:Long,start:String,end:String)
 
 #Get order of a reservation
-GET /orders/reservation/:reservation  @controllers.OrderController.getByReservation(reservation: Long)
+GET           /orders/reservation/:reservation                             @controllers.OrderController.getByReservation(reservation: Long)
 #Get dishes by restaurant
-GET /dishes/restaurant/:restaurant  @controllers.DishController.getDishesByRestaurant(restaurant: Long)
+GET           /dishes/restaurant/:restaurant                               @controllers.DishController.getDishesByRestaurant(restaurant: Long)
 #Get dish by id
-GET /dishes/:id                     @controllers.DishController.getById(id: Long)
+GET           /dishes/:id                                                  @controllers.DishController.getById(id: Long)
 
 #Get tables by franchise
-GET /tables/franchise/:franchise    @controllers.TableRestaurantController.getByRestaurant(franchise: Long)
+GET           /tables/franchise/:franchise                                 @controllers.TableRestaurantController.getByRestaurant(franchise: Long)
 #Add table
-POST /tables						@controllers.TableRestaurantController.insert
+POST          /tables                                                      @controllers.TableRestaurantController.insert
 #Create a reservation
-POST /reservations                  @controllers.ReservationController.insert
+POST          /reservations                                                @controllers.ReservationController.insert
 
 #Get photos by franchise
-GET /photos/:id_franchise           @controllers.PhotoController.getByFranchise(id_franchise: Long)
+GET           /photos/:id_franchise                                        @controllers.PhotoController.getByFranchise(id_franchise: Long)
+#Create a photo
+POST          /photos                                                      @controllers.PhotoController.insert
 
 # Home page
-GET     /                           @controllers.Application.index
+GET           /                                                            @controllers.Application.index
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.at(path="/public", file)
+GET           /assets/*file                                                controllers.Assets.at(path="/public", file)
 #Add balance to user
-PUT /users/addBalance    @controllers.OrderController.updateBalance
+PUT           /users/addBalance                                            @controllers.OrderController.updateBalance
 #Delete dish from order
-DELETE /orders/delete    @controllers.OrderController.delete
+DELETE        /orders/delete                                               @controllers.OrderController.delete
 
 #Add dish to order
-POST /orders/add     @controllers.OrderController.save
+POST          /orders/add                                                  @controllers.OrderController.save
 
 #Modify dish of an order
-PUT /orders/modify   @controllers.OrderController.update
+PUT           /orders/modify                                               @controllers.OrderController.update
 
 
 #Get payed reservations by range
-GET /reservations/paid/inRange/:start/:end   @controllers.ReservationController.getPaid(start:String, end:String)
+GET           /reservations/paid/inRange/:start/:end                       @controllers.ReservationController.getPaid(start:String, end:String)
