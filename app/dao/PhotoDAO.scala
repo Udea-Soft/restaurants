@@ -20,7 +20,7 @@ class PhotoDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)
 
   def save(photo: Photo): Future[String] = {
     db.run(photos += photo).map(res => "Photo saved").recover {
-      case ex: Exception => "Error no se pudo guardar la foto\n" + ex.getCause.getMessage
+      case ex: Exception => "Error no se pudo guardar la foto"
     }
   }
 
@@ -29,7 +29,7 @@ class PhotoDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)
 
     def url_photo = column[String]("url_photo")
 
-    def restaurant = column[Long]("restaurant")
+    def restaurant = column[Long]("franchise")
 
     override def * = (id_photo.?, url_photo, restaurant) <> ((Photo.apply _).tupled, Photo.unapply)
   }

@@ -22,7 +22,7 @@ class FranchiseDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvi
 
   def save(franchise: Franchise): Future[String] = {
     db.run(franchises += franchise).map(res => "Franchise saved").recover {
-      case ex: Exception => "Error no se pudo guardar la franquicia\n" + ex.getCause.getMessage
+      case ex: Exception => "Error no se pudo guardar la franquicia"
     }
   }
 }

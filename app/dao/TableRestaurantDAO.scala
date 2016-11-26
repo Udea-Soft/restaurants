@@ -19,7 +19,7 @@ class TableRestaurantDAO @Inject()(protected val dbConfigProvider: DatabaseConfi
 
   def save(table: TableRestaurant): Future[String] = {
     db.run(tables += table).map(res => "Table saved").recover {
-      case ex: Exception => ex.getCause.getMessage
+      case ex: Exception => "No se pudo guardar la mesa"
     }
   }
 

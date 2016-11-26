@@ -125,7 +125,7 @@ class ReservationDAO @Inject()(protected val dbConfigProvider: DatabaseConfigPro
 
   def save(reservation: Reservation): Future[String] = {
     db.run(reservations += reservation).map(res => "Reserva guardada").recover {
-      case ex: Exception => "Error no se pudo guardar la reserva\n" + ex.getCause.getMessage
+      case ex: Exception => "Error no se pudo guardar la reserva"
     }
   }
 
